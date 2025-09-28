@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\{
-    DashboardController, SaleController
+    DashboardController, SaleController, ProductController,
+    CustomerController
 };
 
 /*
@@ -31,6 +32,14 @@ Route::name("admin.")->middleware('auth')->prefix('admin')->group(function()
         Route::get('create', [SaleController::class, 'create'])->name('create');
         Route::post('store', [SaleController::class, 'store'])->name('store');
         Route::get('/{sale}', [SaleController::class, 'show'])->name('show');
+        Route::get('/{sale}/destroy', [SaleController::class, 'destroy'])->name('destroy');
+        Route::get('/{sale}/restore', [SaleController::class, 'restore'])->name('restore');
+
+        //
+        Route::group(['prefix'=>'trash'], function(){
+            Route::match(['GET', 'POST'], 'list', [SaleController::class, 'trashList'])->name('trash.list');
+            Route::get('recovery', [SaleController::class, 'recovery'])->name('trash.recovery');
+        });
     });
 
 
@@ -38,8 +47,8 @@ Route::name("admin.")->middleware('auth')->prefix('admin')->group(function()
     * *****************
     * PRODUCT MODULE
     * ************** */
-    Route::name('products.')->prefix('products')->group(function(){
-        Route::get('list', [])->name('list');
+    Route::name('products.')->prefix('products')->group(function () {
+        Route::resource('/', ProductController::class);
     });
 
 
@@ -48,7 +57,7 @@ Route::name("admin.")->middleware('auth')->prefix('admin')->group(function()
     * CUSTOMER MODULE
     * ************** */
     Route::name('customer.')->prefix('customer')->group(function(){
-        Route::get('list', [])->name('list');
+        Route::resource('/', CustomerController::class);
     });
 });
 

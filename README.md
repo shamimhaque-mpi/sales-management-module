@@ -48,10 +48,6 @@ This is a Laravel project that includes **Models**, **Migrations**, and **Seeder
    php artisan db:seed
    ```
 
-   Or migrate with seeders together:
-   ```bash
-   php artisan migrate --seed
-   ```
 
 ## ▶️ Run the Project
 

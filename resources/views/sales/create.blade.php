@@ -1,18 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
+<div class="w-7xl mx-auto">
     <div class="bg-white">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between bg-slate-200 p-3 mb-3">
-            <h1 class="text-2xl font-bold text-gray-800">Add New Sale</h1>
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h6m-6 4h10M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                </svg>
+                <h1 class="text-lg md:text-xl font-semibold text-gray-700 tracking-tight">
+                    Add New Sale
+                </h1>
+            </div>
             <div class="mt-4 md:mt-0 flex gap-3">
-                <a 
-                href="{{ route('admin.sales.list') }}"
-                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                <a href="{{ route('admin.sales.list') }}" class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 text-sm rounded hover:bg-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                    </svg>
                     List
                 </a>
             </div>
         </div>
+
         <form id="saleForm" class="p-4" action="{{ route('admin.sales.store') }}">
 
             <div id="globalErrors" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
@@ -25,7 +34,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="customer_id" class="block text-sm font-medium">Customer</label>
-                    <select name="customer_id" id="customer_id" class="w-full border rounded px-3 py-2">
+                    <select name="customer_id" id="customer_id" data-live-search="true" class="selectpicker w-full border min-h-[40px] rounded">
                         <option value="" disabled selected>Select a customer</option>
                         @foreach($customers as $customer)
                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -35,7 +44,7 @@
 
                 <div>
                     <label for="sale_date" class="block text-sm font-medium">Sale Date</label>
-                    <input type="date" name="sale_date" id="sale_date" class="w-full border rounded px-3 py-2">
+                    <input type="date" name="sale_date" id="sale_date" class="datepicker w-full border rounded px-3 py-2" placeholder="Select Date">
                 </div>
             </div>
 
@@ -43,8 +52,6 @@
 
             {{-- Product Items --}}
             <div id="itemsContainer" class="space-y-4">
-                {{-- Default visible product row --}}
-
                 <div class="grid grid-cols-7 gap-4">
                     <label for="" class="col-span-2">Product</label>
                     <label for="">Price</label>
@@ -113,7 +120,8 @@
     </div>
 </template>
 
-
-
-<script src="{{ asset('js/components/sale/createSale.js') }}"></script>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/components/sale/createSale.js') }}"></script>
+@endpush

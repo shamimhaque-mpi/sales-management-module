@@ -30,4 +30,20 @@ interface SaleInterface
      * @return Sale
      */
     public function show(int $id): Sale;
+
+    /**
+     * Soft delete a sale by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function destroy(int $id): bool;
+
+    /**
+     * Restore a soft-deleted sale.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function restore(int $id): bool;
 }

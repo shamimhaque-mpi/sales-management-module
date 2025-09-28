@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow min-h-[60vh]">
     <h2 class="text-xl font-semibold mb-4">Sale Details</h2>
-
+    <hr class="mb-3">
     <div class="mb-6">
         <p><strong>Customer:</strong> {{ $sale->customer->name }}</p>
         <p><strong>Sale Date:</strong> {{ $sale->sale_date }}</p>
@@ -40,18 +40,16 @@
         </tbody>
     </table>
 
-    <ul class="mt-3">
-        @foreach($sale->notes as $note)
-        <li>{{$note->body}}</li>
-        @endforeach
-    </ul>
-
-    <div class="mt-6 text-right">
-        <strong>Grand Total:</strong> {{ $sale->formatted_total }}
+    <div class="grid grid-cols-5 gap-4">
+        <span class="col-span-3 block mt-3">{{$sale->note?->body}}</span>
+        <div class="col-span-2 mt-6 text-right">
+            <strong>Grand Total:</strong> {{ $sale->formatted_total }}
+        </div>
     </div>
 
+
     <div class="mt-8">
-        <a href="{{ route('admin.sales.list') }}" class="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+        <a href="{{ $sale->trashed() ? route('admin.sales.trash.list') : route('admin.sales.list') }}" class="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
             ← Back to List
         </a>
     </div>

@@ -6,11 +6,33 @@
     <title>{{ config('app.name', 'ERP System') }}</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Tom Select CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+
+    <!-- Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <!-- Custom -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 <body class="bg-gray-100 text-gray-800">
 
     <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold text-indigo-600">
@@ -46,5 +68,22 @@
             &copy; {{ date('Y') }} {{ config('app.name', 'ERP System') }}. All rights reserved.
         </div>
     </footer>
+
+    @stack('scripts')
+    <script>
+        if($('.datepicker').html())
+            flatpickr(".datepicker", {
+                dateFormat: "Y-m-d"
+            });
+        
+        if($('.selectpicker').html())
+            new TomSelect('.selectpicker', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+    </script>
 </body>
 </html>

@@ -16,21 +16,29 @@ class SaleEloquent implements SaleInterface
      * @param Request $request
      * @return mixed
      */
-    public function list(Request $request): LengthAwarePaginator
+    public function list(Request $request, String $type = 'general'): LengthAwarePaginator
     {
         $query = Sale::with('customer', 'items.product');
 
-        if ($request->filled('customer')) {
+        if($type=='trash')
+            $query = $query->onlyTrashed();
+
+        if ($request->customer) {
             $query->whereHas('customer', fn($q) => $q->where('name', 'like', "%{$request->customer}%"));
         }
 
-        if ($request->filled('product')) {
+        if ($request->product) {
             $query->whereHas('items.product', fn($q) => $q->where('name', 'like', "%{$request->product}%"));
         }
 
-        if ($request->filled('from') && $request->filled('to')) {
-            $query->whereBetween('sale_date', [$request->from, $request->to]);
+        if ($request->from) {
+            $query->where('sale_date', '>=', $request->from);
         }
+
+        if ($request->to) {
+            $query->where('sale_date', '<=', $request->to);
+        }
+
 
         return $query->orderBy('id', 'DESC')->paginate(10);
     }
@@ -58,7 +66,7 @@ class SaleEloquent implements SaleInterface
             ]);
 
             if(isset($data['note']))
-                $sale->notes()->create(['body'=>$data['note']]);
+                $sale->note()->create(['body'=>$data['note']]);
 
             collect($items['product_id'] ?? [])->each(function ($productId, $key) use ($items, $sale) {
                 $sale->items()->create([
@@ -84,6 +92,32 @@ class SaleEloquent implements SaleInterface
      */
     public function show(int $id): Sale
     {
-        return Sale::with('customer', 'items.product', 'creator')->findOrFail($id);
+        return Sale::with('customer', 'items.product', 'creator')->withTrashed()->findOrFail($id);
+    }
+
+
+    /**
+     * Soft delete a sale by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function destroy(int $id): bool
+    {
+        $sale = Sale::findOrFail($id);
+        return $sale->delete();
+    }
+
+
+    /**
+     * Restore a soft-deleted sale.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function restore(int $id): bool
+    {
+        $sale = Sale::onlyTrashed()->findOrFail($id);
+        return $sale->restore();
     }
 }

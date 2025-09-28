@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Sale extends Model
 {
@@ -57,13 +57,13 @@ class Sale extends Model
     }
 
     /**
-     * Get all notes attached to this sale (polymorphic).
+     * Get all note attached to this sale (polymorphic).
      *
-     * @return MorphMany
+     * @return MorphOne
      */
-    public function notes(): MorphMany
+    public function note(): MorphOne
     {
-        return $this->morphMany(Note::class, 'noteable');
+        return $this->morphOne(Note::class, 'noteable');
     }
 
     /**
