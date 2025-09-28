@@ -1,3 +1,9 @@
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* Using Vue.js or Next.js with Webpack provides a 
+* better-structured, more organized, and more scalable 
+* approach than using jQuery.
+* ++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
 
 const calculateItemWiseTotalPrice = ()=>{
 
@@ -48,7 +54,11 @@ $(document).on('click', '.removeItem', function () {
 
 
 
-
+/*
+* *******************************
+* ASYNC AND AWAIT (PROMISE) 
+* EXAMPLE
+* ************************** */
 $('#saleForm').on('submit', async function(e) {
     
     e.preventDefault();

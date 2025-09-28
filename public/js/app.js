@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     document.querySelectorAll('.delete-link').forEach(function (el) {
         el.addEventListener('click', function (e) {
             e.preventDefault();
@@ -18,4 +19,20 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+
+
+    flatpickr(".datepicker", {
+        dateFormat: "Y-m-d"
+    });
+            
+    if($('.selectpicker').html())
+        new TomSelect('.selectpicker', {
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
 });
+

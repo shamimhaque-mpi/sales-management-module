@@ -70,20 +70,5 @@
     </footer>
 
     @stack('scripts')
-    <script>
-        if($('.datepicker').html())
-            flatpickr(".datepicker", {
-                dateFormat: "Y-m-d"
-            });
-        
-        if($('.selectpicker').html())
-            new TomSelect('.selectpicker', {
-                create: false,
-                sortField: {
-                    field: "text",
-                    direction: "asc"
-                }
-            });
-    </script>
 </body>
 </html>
