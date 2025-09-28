@@ -81,8 +81,17 @@ $('#saleForm').on('submit', async function(e) {
     let data = await response.json();
 
     if (response.ok) {
-        alert('Success:', data);
-        window.location.reload();
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your submit was completed successfully.',
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
     } 
     else {
         const errors = data.errors;
